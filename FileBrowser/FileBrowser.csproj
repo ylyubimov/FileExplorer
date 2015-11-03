@@ -100,6 +100,18 @@
   <ItemGroup>
     <Resource Include="Resources\sphereTexture.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\kobzon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\Folder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\glaz.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

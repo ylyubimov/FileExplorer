@@ -7,28 +7,28 @@ using System.Windows;
 namespace FileBrowser.View.Sphere {
     class SphereGeometry3D
     {
-        private int n;
-        private int r;
+        private int _n;
+        private int _r;
         protected Point3DCollection points;
         protected Int32Collection triangleIndices;
         protected PointCollection textureCoordinates;
 
         public virtual int Radius
         {
-            get { return r; }
+            get { return _r; }
             set
             {
-                r = value;
+                _r = value;
                 CalculateGeometry();
             }
         }
 
         public virtual int Separators
         {
-            get { return n; }
+            get { return _n; }
             set
             {
-                n = value;
+                _n = value;
                 CalculateGeometry();
             }
         }
@@ -55,30 +55,30 @@ namespace FileBrowser.View.Sphere {
 
         protected void CalculateGeometry() {
             int e;
-            double segmentRad = Math.PI / 2 / (n + 1);
-            int numberOfSeparators = 4 * n + 4;
+            double segmentRad = Math.PI / 2 / (_n + 1);
+            int numberOfSeparators = 4 * _n + 4;
 
             points = new Point3DCollection();
             triangleIndices = new Int32Collection();
             textureCoordinates = new PointCollection();
 
-            for (e = -n; e <= n; e++) {
-                double rE = r * Math.Cos( segmentRad * e );
-                double yE = r * Math.Sin( segmentRad * e );
+            for (e = -_n; e <= _n; e++) {
+                double rE = _r * Math.Cos( segmentRad * e );
+                double yE = _r * Math.Sin( segmentRad * e );
 
                 for (int s = 0; s <= numberOfSeparators - 1; s++) {
                     double zS = rE * Math.Sin( segmentRad * s ) * (-1);
                     double xS = rE * Math.Cos( segmentRad * s );
                     points.Add( new Point3D( xS, yE, zS ) );
-                    textureCoordinates.Add( new Point( (s * 50) % 100, (e * 50) % 100 ) );
+                    textureCoordinates.Add( new Point( (s * 4) % 604, (e * 7) % 604 - 52) );
                 }
             }
-            points.Add( new Point3D( 0, r, 0 ) );
+            points.Add( new Point3D( 0, _r, 0 ) );
             textureCoordinates.Add( new Point( 0, 0 ) );
-            points.Add( new Point3D( 0, -r, 0 ) );
+            points.Add( new Point3D( 0, -_r, 0 ) );
             textureCoordinates.Add( new Point( 0, 0 ) );
 
-            for (e = 0; e < n * 2; e++) {
+            for (e = 0; e < _n * 2; e++) {
                 for (int i = 0; i < numberOfSeparators; i++) {
                     triangleIndices.Add( e * numberOfSeparators + i );
                     triangleIndices.Add( e * numberOfSeparators + (i + 1) % numberOfSeparators + numberOfSeparators );
@@ -90,14 +90,14 @@ namespace FileBrowser.View.Sphere {
             }
 
             for (int i = 0; i < numberOfSeparators; i++) {
-                triangleIndices.Add( numberOfSeparators * (2 * n + 1) );
-                triangleIndices.Add( n * 2 * numberOfSeparators + i );
-                triangleIndices.Add( n * 2 * numberOfSeparators + (i + 1) % numberOfSeparators );
+                triangleIndices.Add( numberOfSeparators * (2 * _n + 1) );
+                triangleIndices.Add( _n * 2 * numberOfSeparators + i );
+                triangleIndices.Add( _n * 2 * numberOfSeparators + (i + 1) % numberOfSeparators );
             }
 
             for (int i = 0; i < numberOfSeparators; i++) {
                 triangleIndices.Add( i );
-                triangleIndices.Add( numberOfSeparators * (2 * n + 1) + 1 );
+                triangleIndices.Add( numberOfSeparators * (2 * _n + 1) + 1 );
                 triangleIndices.Add( (i + 1) % numberOfSeparators );
             }
         }

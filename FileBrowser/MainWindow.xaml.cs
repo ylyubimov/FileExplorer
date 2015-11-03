@@ -29,8 +29,9 @@ namespace FileBrowser
         {
             InitializeComponent();
 
-            SphereController controller = new SphereController(SphereTransform);
-            controller.RotateSphere( 360, 3000 );
+            SphereController controller = new SphereController(SphereTransformX, SphereTransformY, SphereTransform);
+//            controller.RotateSphere( 360, 3000, 0.1, 15, 6 );
+            controller.RotateSphereX( 148, 1000 );
         }
     }
 }

@@ -8,7 +8,12 @@
         x:Class="FileBrowser.MainWindow"
         Title="MainWindow"
         Height="500"
-        Width="500">
+        Width="500"
+        AllowsTransparency="True"
+        WindowStyle="None">
+    <Window.Background>
+        <ImageBrush ImageSource = "Resources/background.png"></ImageBrush>
+    </Window.Background>
     <Grid>
         <Grid.Resources>
             <sphere:SphereGeometry3D x:Key="SphereGeometrySource"/>
@@ -23,7 +28,7 @@
                     <ImageBrush
                         Viewport="0, 0, 100, 100"
                         ViewportUnits="Absolute"
-                        ImageSource="Resources/sphereTexture.png"
+                        ImageSource="Resources/glaz.jpg"
                         TileMode="FlipXY"
                         Opacity="0.8"/>
                 </DiffuseMaterial.Brush>
@@ -31,14 +36,14 @@
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="0"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="0"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
         <Viewport3D
 			x:Name="Viewport1"
@@ -60,7 +65,7 @@
                     <Model3DGroup>
                         <DirectionalLight
 							Color="#FFFFFF"
-							Direction="-1 0 -2"/>
+							Direction="-1 0 0"/>
                         <GeometryModel3D
                             x:Name="MainSphere"
 							Geometry="{StaticResource SphereGeometry}"
@@ -71,8 +76,22 @@
                                     <RotateTransform3D>
                                         <RotateTransform3D.Rotation>
                                             <AxisAngleRotation3D
-                                                x:Name="SphereTransform"
+                                                x:Name="SphereTransformX"
                                                 Axis="0 1 0"/>
+                                        </RotateTransform3D.Rotation>
+                                    </RotateTransform3D>
+                                    <RotateTransform3D>
+                                        <RotateTransform3D.Rotation>
+                                            <AxisAngleRotation3D
+                                                x:Name="SphereTransformY"
+                                                Axis="0 0 1"/>
+                                        </RotateTransform3D.Rotation>
+                                    </RotateTransform3D>
+                                    <RotateTransform3D>
+                                        <RotateTransform3D.Rotation>
+                                            <AxisAngleRotation3D
+                                                x:Name="SphereTransform"
+                                                Axis="0 0 0"/>
                                         </RotateTransform3D.Rotation>
                                     </RotateTransform3D>
                                 </Transform3DGroup>

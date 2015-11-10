@@ -6,7 +6,7 @@
         xmlns:sphere="clr-namespace:FileBrowser.View.Sphere"
         mc:Ignorable="d"
         x:Class="FileBrowser.MainWindow"
-        Title="MainWindow"
+        Title="Magic sphere browser"
         Height="500"
         Width="500"
         AllowsTransparency="True"
@@ -14,26 +14,26 @@
     <Window.Background>
         <ImageBrush ImageSource = "Resources/background.png"></ImageBrush>
     </Window.Background>
+    <Window.Resources>
+        <sphere:SphereGeometry3D x:Key="SphereGeometrySource"/>
+        <MeshGeometry3D
+			x:Key="SphereGeometry"
+            Positions="{Binding Points, Source={StaticResource SphereGeometrySource}}"
+            TriangleIndices="{Binding TriangleIndices, Source={StaticResource SphereGeometrySource}}"
+            TextureCoordinates="{Binding TextureCoordinates, Source={StaticResource SphereGeometrySource}}"/>
+        <DiffuseMaterial
+                    x:Key="SphereMaterial">
+            <DiffuseMaterial.Brush>
+                <ImageBrush
+                    Viewport="0, 0, 100, 100"
+                    ViewportUnits="Absolute"
+                    ImageSource="Resources/glaz.jpg"
+                    TileMode="FlipXY"
+                    Opacity="0.8"/>
+            </DiffuseMaterial.Brush>
+        </DiffuseMaterial>
+    </Window.Resources>
     <Grid>
-        <Grid.Resources>
-            <sphere:SphereGeometry3D x:Key="SphereGeometrySource"/>
-            <MeshGeometry3D
-				x:Key="SphereGeometry"
-                Positions="{Binding Points, Source={StaticResource SphereGeometrySource}}"
-                TriangleIndices="{Binding TriangleIndices, Source={StaticResource SphereGeometrySource}}"
-                TextureCoordinates="{Binding TextureCoordinates, Source={StaticResource SphereGeometrySource}}"/>
-            <DiffuseMaterial
-                        x:Key="SphereMaterial">
-                <DiffuseMaterial.Brush>
-                    <ImageBrush
-                        Viewport="0, 0, 100, 100"
-                        ViewportUnits="Absolute"
-                        ImageSource="Resources/glaz.jpg"
-                        TileMode="FlipXY"
-                        Opacity="0.8"/>
-                </DiffuseMaterial.Brush>
-            </DiffuseMaterial>
-        </Grid.Resources>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0"/>
@@ -62,7 +62,7 @@
             </Viewport3D.Camera>
             <ModelVisual3D>
                 <ModelVisual3D.Content>
-                    <Model3DGroup>
+                    <Model3DGroup x:Name="Models">
                         <DirectionalLight
 							Color="#FFFFFF"
 							Direction="-1 0 0"/>

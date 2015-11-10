@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\Item\ItemView.cs" />
     <Compile Include="View\Sphere\SphereGeometry3D.cs" />
     <Compile Include="View\Sphere\SphereController.cs" />
     <Page Include="MainWindow.xaml">
@@ -106,9 +107,7 @@
   <ItemGroup>
     <Resource Include="Resources\background.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\Folder\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\glaz.jpg" />
   </ItemGroup>

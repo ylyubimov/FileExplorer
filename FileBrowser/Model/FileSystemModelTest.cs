@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FileBrowser.Model
+﻿namespace FileBrowser.Model
 {
     class FileSystemModelTest
     {
-        static void Test()
+        public static void Test()
         {
-            FileSystemModel model = new FileSystemModel(5, 5, "C:\\");
-            model.Print();
-            model.SelectNewCurrentFile(4, 4);
-            model.Print();
-            model.SelectNewCurrentFile(4, 0);
+            FileSystemModel model = new FileSystemModel(3, 3, "C:\\Study\\");
             model.Print();
         }
     }

@@ -67,10 +67,10 @@ namespace FileBrowser.View.Sphere {
                 double yE = _r * Math.Sin( segmentRad * e );
 
                 for (int s = 0; s <= numberOfSeparators - 1; s++) {
-                    double zS = rE * Math.Sin( segmentRad * s ) * (-1);
-                    double xS = rE * Math.Cos( segmentRad * s );
+                    double zS = rE * Math.Sin( segmentRad * (s + 1) - Math.PI / 2) * (-1);
+                    double xS = rE * Math.Cos( segmentRad * (s + 1) - Math.PI / 2 );
                     points.Add( new Point3D( xS, yE, zS ) );
-                    textureCoordinates.Add( new Point( (s * 4) % 604, (e * 7) % 604 - 52) );
+                    textureCoordinates.Add( new Point( ((double)s / (2 * _n)), ((1 - (double)e / ((double)_n / 2)) / 2)) );
                 }
             }
             points.Add( new Point3D( 0, _r, 0 ) );

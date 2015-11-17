@@ -22,7 +22,7 @@ namespace FileBrowser.View.Item
         public Geometry3D Calculate(float angleZ, float angleY) {
             angleZ = (float)(angleZ * Math.PI / 180);
             angleY = (float)(angleY * Math.PI / 180);
-//            var geometry = new MeshGeometry3D();
+            var geometry = new MeshGeometry3D();
 //            geometry.Positions.Add(new Point3D(_r + 5, 5, +5));
 //            geometry.Positions.Add(new Point3D(_r + 5, 5, -5));
 //            geometry.Positions.Add(new Point3D(_r + 5, -5, +5));
@@ -37,7 +37,7 @@ namespace FileBrowser.View.Item
 //            geometry.TriangleIndices.Add(1);
 //            geometry.TriangleIndices.Add(2);
 //            geometry.TriangleIndices.Add(3);
-//            return geometry;
+            return geometry;
         }
     }
 }

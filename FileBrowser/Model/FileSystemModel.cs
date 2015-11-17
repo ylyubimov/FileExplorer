@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace FileBrowser.Model
 {
-    class FileSystemModel
+    public class FileSystemModel
     {
-        private readonly int _rowCount;
-        private readonly int _columnCount;
-        private readonly int _currentFileRow;
-        private readonly int _currentFileColumn;
+        readonly int _rowCount;
+        readonly int _columnCount;
+        readonly int _currentFileRow;
+        readonly int _currentFileColumn;
 
-        private string[][] field;
+        public FileItem[][] Field;
 
         private void eraseField()
         {
@@ -22,7 +18,7 @@ namespace FileBrowser.Model
             {
                 for (int j = 0; j < _columnCount; ++j)
                 {
-                    field[i][j] = "";
+                    Field[i][j].Path = "";
                 }
             }
         }
@@ -39,7 +35,7 @@ namespace FileBrowser.Model
             {
                 if (fieldIndex < _columnCount)
                 {
-                    field[_currentFileRow + 1][fieldIndex] = currentFile;
+                    Field[_currentFileRow + 1][fieldIndex].Path = currentFile;
                     ++fieldIndex;
                 }
                 else
@@ -53,7 +49,7 @@ namespace FileBrowser.Model
         {
             if (Directory.GetParent(newPath) == null)
             {
-                field[row][_currentFileColumn] = newPath;
+                Field[row][_currentFileColumn].Path = newPath;
                 return;
             }
 
@@ -80,7 +76,7 @@ namespace FileBrowser.Model
 
             while (fieldIndex >= 0 && currentDirIndex >= 0)
             {
-                field[row][fieldIndex] = directories[currentDirIndex];
+                Field[row][fieldIndex].Path = directories[currentDirIndex];
 
                 --fieldIndex;
                 --currentDirIndex;
@@ -92,7 +88,7 @@ namespace FileBrowser.Model
 
             while (fieldIndex < _columnCount && currentDirIndex < directories.Length)
             {
-                field[row][fieldIndex] = directories[currentDirIndex];
+                Field[row][fieldIndex].Path = directories[currentDirIndex];
 
                 ++fieldIndex;
                 ++currentDirIndex;
@@ -105,7 +101,7 @@ namespace FileBrowser.Model
                 {
                     if (fieldIndex < _columnCount)
                     {
-                        field[row][fieldIndex] = currentFile;
+                        Field[row][fieldIndex].Path = currentFile;
                         ++fieldIndex;
                     }
                     else
@@ -116,7 +112,33 @@ namespace FileBrowser.Model
             }
         }
 
-        private void setCurrentFile(string path)
+        public FileSystemModel(int rowCount, int columnCount, string currentPath)
+        {
+            // TODO: check argumnts
+            // rowCount > 1
+            // columnCount > 0
+            _rowCount = rowCount;
+            _columnCount = columnCount;
+
+            _currentFileRow = _rowCount - 2;
+            _currentFileColumn = _columnCount / 2;
+
+            Field = new FileItem[_rowCount][];
+
+            for (int i = 0; i < _rowCount; ++i)
+            {
+                Field[i] = new FileItem[_columnCount];
+
+                for (int j = 0; j < _columnCount; ++j)
+                {
+                    Field[i][j] = new FileItem(this);
+                }
+            }
+
+            SetCurrentFile(currentPath);
+        }
+
+        public void SetCurrentFile(string path)
         {
             eraseField();
             updateBottomLevel(path);
@@ -134,31 +156,9 @@ namespace FileBrowser.Model
             }
         }
 
-        public FileSystemModel(int rowCount, int columnCount, string currentPath)
+        public FileItem[][] GetField()
         {
-            // TODO: check argumnts
-            // rowCount > 1
-            // columnCount > 0
-            _rowCount = rowCount;
-            _columnCount = columnCount;
-
-            _currentFileRow = _rowCount - 2;
-            _currentFileColumn = _columnCount / 2;
-
-            field = new string[_rowCount][];
-
-            for (int i = 0; i < _rowCount; ++i)
-            {
-                field[i] = new string[_columnCount];
-            }
-
-            setCurrentFile(currentPath);
-        }
-
-        public void SelectNewCurrentFile(int row, int column)
-        {
-            // TODO: check 0 <= row < rowCount && 0 <= column < columnCount
-            setCurrentFile(field[row][column]);
+            return Field;
         }
 
         public void Print()
@@ -167,9 +167,9 @@ namespace FileBrowser.Model
             {
                 for (int j = 0; j < _columnCount; ++j)
                 {
-                    if (field[i][j].Length > 0)
+                    if (Field[i][j].Path.Length > 0)
                     {
-                        System.Console.Write(field[i][j].Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).Last());
+                        System.Console.Write(Field[i][j].Name);
                     }
                     System.Console.Write("\t\t");
                 }

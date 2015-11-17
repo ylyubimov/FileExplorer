@@ -26,10 +26,6 @@
         </DiffuseMaterial>
     </Window.Resources>
     <Grid>
-        <Button
-            Margin="449,0,0,452"
-            Click="ExitButtonOnClick">
-        </Button>
         <Viewport3D>
             <Viewport3D.Camera>
                 <PerspectiveCamera
@@ -46,7 +42,7 @@
                     <Grid
                         Height="500"
                         Width="500">
-                        <Image Source="Resources/sphereTexture.png"></Image>
+                        <Image Source="Resources/glaz.jpg"></Image>
                         <Grid Margin="130,100,130,100">
                             <Grid.Resources>
                                 <DataTemplate x:Key="FileItemTemplate">
@@ -55,9 +51,7 @@
                                         Height="96">
                                         <Button
                                             Command="{Binding ClickCommand}"
-                                            Margin="10,10,10,10"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent">
+                                            Margin="10,10,10,10">
                                             <StackPanel>
                                                 <Image
                                                     Source="{Binding Icon}"
@@ -67,7 +61,6 @@
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     FontSize="8"
-                                                    Foreground="Black"
                                                     Text="{Binding Name}"/>
                                             </StackPanel>
                                         </Button>
@@ -85,8 +78,7 @@
                                 Grid.Row="0" 
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                                 ItemTemplate="{DynamicResource FileItemTemplate}"
-                                Background="Transparent"
-                                BorderBrush="Transparent">
+                                Background="Transparent">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel IsItemsHost="True" />
@@ -99,8 +91,7 @@
                                 Grid.Row="1" 
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                 ItemTemplate="{DynamicResource FileItemTemplate}"
-                                Background="Transparent"
-                                BorderBrush="Transparent">
+                                Background="Transparent">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel IsItemsHost="True" />
@@ -113,8 +104,7 @@
                                 Grid.Row="2"
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                 ItemTemplate="{DynamicResource FileItemTemplate}"
-                                Background="Transparent"
-                                BorderBrush="Transparent">
+                                Background="Transparent">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel IsItemsHost="True" />

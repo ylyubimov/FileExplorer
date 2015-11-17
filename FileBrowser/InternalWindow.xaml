@@ -1,0 +1,64 @@
+﻿<Window x:Class="FileBrowser.InternalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="InternalWindow"
+        Height="300"
+        Width="300">
+    <Grid>
+        <Image Source="Resources/glaz.jpg"></Image>
+        <Grid>
+            <Grid.Resources>
+                <DataTemplate x:Key="FileItemTemplate">
+                    <Button Height="150" Width="150" Command="{Binding ClickCommand}">
+                        <StackPanel>
+                            <Image Source="{Binding Icon}" Width="32" Height="32"/>
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+                    </Button>
+                </DataTemplate>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="90"/>
+            </Grid.RowDefinitions>
+
+            <ListBox
+                    x:Name="PreviousLevel" 
+                    Grid.Row="0" 
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                    ItemTemplate="{DynamicResource FileItemTemplate}"
+                    Opacity="0.5">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <ListBox
+                x:Name="CurrentLevel" 
+                Grid.Row="1" 
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ItemTemplate="{DynamicResource FileItemTemplate}"
+                Opacity="0.5">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <ListBox
+                x:Name="NextLevel" 
+                Grid.Row="2" 
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ItemTemplate="{DynamicResource FileItemTemplate}"
+                Opacity="0.5">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Window>

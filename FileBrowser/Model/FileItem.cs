@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Etier.IconHelper;
+using QuickZip.Tools;
 
 namespace FileBrowser.Model
 {
@@ -33,16 +33,20 @@ namespace FileBrowser.Model
                     Name = _path.Split(new char[] { System.IO.Path.DirectorySeparatorChar },
                         StringSplitOptions.RemoveEmptyEntries).Last();
 
-                    FileAttributes attr = File.GetAttributes(_path);
-                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory) 
-                    {
-                        Icon = ToImageSource(IconReader.GetFolderIcon(IconReader.IconSize.Large,
-                            IconReader.FolderType.Closed));
-                    }
-                    else
-                    {
-                        Icon = ToImageSource(IconReader.GetFileIcon(_path, IconReader.IconSize.Large, false));
-                    }
+                    FileToIconConverter iconConverter = new FileToIconConverter();
+
+                    Icon = iconConverter.GetImage(_path, 120);
+
+                    //FileAttributes attr = File.GetAttributes(_path);
+                    //if ((attr & FileAttributes.Directory) == FileAttributes.Directory) 
+                    //{
+                    //    Icon = ToImageSource(IconReader.GetFolderIcon(IconReader.IconSize.ExtraLarge,
+                    //        IconReader.FolderType.Closed));
+                    //}
+                    //else
+                    //{
+                    //    Icon = ToImageSource(IconReader.GetFileIcon(_path, IconReader.IconSize.ExtraLarge, false));
+                    //}
                 }
                 else
                 {

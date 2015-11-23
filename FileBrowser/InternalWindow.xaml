@@ -11,7 +11,7 @@
                 <DataTemplate x:Key="FileItemTemplate">
                     <Button Height="150" Width="150" Command="{Binding ClickCommand}">
                         <StackPanel>
-                            <Image Source="{Binding Icon}" Width="32" Height="32"/>
+                            <Image Source="{Binding Icon}" Width="120" Height="120"/>
                             <TextBlock Text="{Binding Name}"/>
                         </StackPanel>
                     </Button>

@@ -30,7 +30,7 @@ namespace FileBrowser.Model
                 _path = value;
                 if (_path.Length > 0)
                 {
-                    Name = _path.Split(new char[] { System.IO.Path.DirectorySeparatorChar },
+                    Name = _path.Split(new[] { System.IO.Path.DirectorySeparatorChar },
                         StringSplitOptions.RemoveEmptyEntries).Last();
 
                     FileAttributes attr = File.GetAttributes(_path);
@@ -127,8 +127,8 @@ namespace FileBrowser.Model
     
     public class CommandHandler : ICommand
     {
-        private Action _action;
-        private bool _canExecute;
+        private readonly Action _action;
+        private readonly bool _canExecute;
         public CommandHandler(Action action, bool canExecute)
         {
             _action = action;

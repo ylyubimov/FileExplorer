@@ -12,7 +12,7 @@ namespace FileBrowser.Model
 
         public FileItem[][] Field;
 
-        private void eraseField()
+        private void EraseField()
         {
             for (int i = 0; i < _rowCount; ++i)
             {
@@ -23,7 +23,7 @@ namespace FileBrowser.Model
             }
         }
 
-        private void updateBottomLevel(string parentPath)
+        private void UpdateBottomLevel(string parentPath)
         {
             if (!Directory.Exists(parentPath))
             {
@@ -45,7 +45,7 @@ namespace FileBrowser.Model
             }
         }
 
-        private void updateLevel(int row, string newPath)
+        private void UpdateLevel(int row, string newPath)
         {
             if (Directory.GetParent(newPath) == null)
             {
@@ -95,19 +95,19 @@ namespace FileBrowser.Model
             }
 
             // Пытаемся дополнить строку файлами
-            if (fieldIndex < _columnCount)
+            if (fieldIndex >= _columnCount) {
+                return;
+            }
+            foreach (string currentFile in Directory.GetFiles(parentPath))
             {
-                foreach (string currentFile in Directory.GetFiles(parentPath))
+                if (fieldIndex < _columnCount)
                 {
-                    if (fieldIndex < _columnCount)
-                    {
-                        Field[row][fieldIndex].Path = currentFile;
-                        ++fieldIndex;
-                    }
-                    else
-                    {
-                        return;
-                    }
+                    Field[row][fieldIndex].Path = currentFile;
+                    ++fieldIndex;
+                }
+                else
+                {
+                    return;
                 }
             }
         }
@@ -140,18 +140,19 @@ namespace FileBrowser.Model
 
         public void SetCurrentFile(string path)
         {
-            eraseField();
-            updateBottomLevel(path);
+            if (path == "") {
+                return;
+            }
+            EraseField();
+            UpdateBottomLevel(path);
 
             for (int row = _currentFileRow; row >= 0; --row)
             {
-                updateLevel(row, path);
-
+                UpdateLevel(row, path);
                 if (Directory.GetParent(path) == null)
                 {
                     return;
                 }
-
                 path = Directory.GetParent(path).FullName;
             }
         }

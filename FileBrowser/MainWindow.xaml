@@ -49,27 +49,34 @@
                         <Image Source="Resources/sphereTexture.png"></Image>
                         <Grid Margin="130,100,130,100">
                             <Grid.Resources>
+                                <ControlTemplate x:Key="IconTemplate">
+                                    <Grid
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch">
+                                        <StackPanel
+                                            VerticalAlignment="Center">
+                                            <Image
+                                                    Source="{Binding Icon}"
+                                                    Width="32"
+                                                    Height="32"/>
+                                            <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="8"
+                                                    Foreground="Black"
+                                                    Text="{Binding Name}"/>
+                                        </StackPanel>
+                                        <ContentPresenter/>
+                                    </Grid>
+                                </ControlTemplate>
                                 <DataTemplate x:Key="FileItemTemplate">
                                     <Grid
                                         Width="76"
                                         Height="96">
                                         <Button
                                             Command="{Binding ClickCommand}"
-                                            Margin="10,10,10,10"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent">
-                                            <StackPanel>
-                                                <Image
-                                                    Source="{Binding Icon}"
-                                                    Width="32"
-                                                    Height="32"/>
-                                                <TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    FontSize="8"
-                                                    Foreground="Black"
-                                                    Text="{Binding Name}"/>
-                                            </StackPanel>
+                                            Template="{StaticResource IconTemplate}"
+                                            Margin="10,10,10,10">
                                         </Button>
                                     </Grid>
                                 </DataTemplate>
@@ -82,34 +89,39 @@
 
                             <ListBox
                                 x:Name="PreviousLevel"
-                                Grid.Row="0" 
-                                ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                                ItemTemplate="{DynamicResource FileItemTemplate}"
-                                Background="Transparent"
-                                BorderBrush="Transparent">
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel IsItemsHost="True" />
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                            </ListBox>
-                            <ListBox
-                                x:Name="CurrentLevel"
-                                Width="300"
-                                Grid.Row="1" 
+                                Grid.Row="0"
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                 ItemTemplate="{DynamicResource FileItemTemplate}"
                                 Background="Transparent"
                                 BorderBrush="Transparent">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel IsItemsHost="True" />
+                                        <WrapPanel IsItemsHost="True"/>
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                             </ListBox>
+                            <ScrollViewer
+                                Grid.Row="1"
+                                VerticalScrollBarVisibility="Disabled"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Stretch">
+                                <ListBox
+                                        x:Name="CurrentLevel"
+                                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                        ItemTemplate="{StaticResource FileItemTemplate}"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True"/>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </ScrollViewer>
                             <ListBox
                                 x:Name="NextLevel"
-                                Width="300"
                                 Grid.Row="2"
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                 ItemTemplate="{DynamicResource FileItemTemplate}"
@@ -117,7 +129,7 @@
                                 BorderBrush="Transparent">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel IsItemsHost="True" />
+                                        <WrapPanel IsItemsHost="True"/>
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                             </ListBox>

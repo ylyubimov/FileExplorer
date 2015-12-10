@@ -19,18 +19,18 @@ using FileBrowser.View.Sphere;
 
 namespace FileBrowser {
     public partial class MainWindow : Window {
-        private FileSystemModel model;
-        private FileItem[][] field;
+        private readonly FileSystemModel _model;
+        private FileItem[][] _field;
 
         public MainWindow() {
-            model = new FileSystemModel( 3, 3, "C:\\" );
+            _model = new FileSystemModel( 3, 3, "C:\\" );
             InitializeComponent();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
-            PreviousLevel.ItemsSource = model.Field[0];
-            CurrentLevel.ItemsSource = model.Field[1];
-            NextLevel.ItemsSource = model.Field[2];
+            PreviousLevel.ItemsSource = _model.Field[0];
+            CurrentLevel.ItemsSource = _model.Field[1];
+            NextLevel.ItemsSource = _model.Field[2];
 
             BackgroundWorker worker = new BackgroundWorker();
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -39,17 +39,21 @@ namespace FileBrowser {
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e) {
-            field = model.GetField();
+            _field = _model.GetField();
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            PreviousLevel.ItemsSource = field[0];
-            CurrentLevel.ItemsSource = field[1];
-            NextLevel.ItemsSource = field[2];
+            PreviousLevel.ItemsSource = _field[0];
+            CurrentLevel.ItemsSource = _field[1];
+            NextLevel.ItemsSource = _field[2];
         }
 
         private void ExitButtonOnClick(object sender, RoutedEventArgs e) {
             Close();
+        }
+
+        private void PZDC(object sender, MouseButtonEventArgs e) {
+            int a = 0;
         }
     }
 }

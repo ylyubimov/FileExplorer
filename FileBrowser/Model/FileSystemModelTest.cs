@@ -4,7 +4,7 @@
     {
         public static void Test()
         {
-            FileSystemModel model = new FileSystemModel(3, 3, "C:\\Study\\");
+            FileSystemModel model = new FileSystemModel(3, "C:\\Study\\");
             model.Print();
         }
     }

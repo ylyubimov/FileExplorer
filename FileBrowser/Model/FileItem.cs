@@ -13,9 +13,8 @@ namespace FileBrowser.Model
     public class FileItem : INotifyPropertyChanged
     {
         private readonly FileSystemModel _model;
-
+        private readonly bool _canExecute;
         private string _path;
-
         private string _name;
         private ImageSource _icon;
 
@@ -94,12 +93,6 @@ namespace FileBrowser.Model
             {
                 return _clickCommand ?? (_clickCommand = new CommandHandler(MyAction, _canExecute));
             }
-        }
-        private readonly bool _canExecute;
-
-        public FileItem() {
-            _model = null;
-            _canExecute = false;
         }
 
         public void MyAction()

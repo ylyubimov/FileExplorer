@@ -1,182 +1,144 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
-namespace FileBrowser.Model
-{
-    public class FileSystemModel
-    {
-        readonly int _rowCount;
-        readonly int _columnCount;
-        readonly int _currentFileRow;
-        readonly int _currentFileColumn;
+namespace FileBrowser.Model {
+	public class FileSystemModel {
+		private readonly int _currentFileRow;
+		private readonly int _currentFileColumn;
+		private readonly List<FileItem>[] _field;
 
-        public FileItem[][] Field;
+		public List<FileItem>[] Field {
+			get { return _field; }
+		}
 
-        private void EraseField()
-        {
-            for (int i = 0; i < _rowCount; ++i)
-            {
-                for (int j = 0; j < _columnCount; ++j)
-                {
-                    Field[i][j].Path = "";
-                }
-            }
-        }
+		private void EraseField() {
+			for (int i = 0; i < _field.Length; ++i) {
+				_field[i].Clear();
+			}
+		}
 
-        private void UpdateBottomLevel(string parentPath)
-        {
-            if (!Directory.Exists(parentPath))
-            {
-                return;
-            }
+		private void UpdateBottomLevel(string parentPath) {
+			if (!Directory.Exists(parentPath)) {
+				return;
+			}
 
-            int fieldIndex = 0;
-            foreach (string currentFile in Directory.GetDirectories(parentPath).Concat(Directory.GetFiles(parentPath)))
-            {
-                if (fieldIndex < _columnCount)
-                {
-                    Field[_currentFileRow + 1][fieldIndex].Path = currentFile;
-                    ++fieldIndex;
-                }
-                else
-                {
-                    return;
-                }
-            }
-        }
+			foreach (var file in Directory.GetDirectories(parentPath).Concat(Directory.GetFiles(parentPath))) {
+				_field[_currentFileRow + 1].Add(new FileItem(this));
+				_field[_currentFileRow + 1].Last().Path = file;
+			}
+		}
 
-        private void UpdateLevel(int row, string newPath)
-        {
-            if (Directory.GetParent(newPath) == null)
-            {
-                Field[row][_currentFileColumn].Path = newPath;
-                return;
-            }
+		// закидывает в строчку row файлы из директории newPath. используется для того, чтобы обновлять все линии, кроме нижней
+		private void UpdateLevel(int row, string newPath) {
+			if (Directory.GetParent(newPath) == null) {
+				_field[row].Add(new FileItem(this));
+				_field[row].Last().Path = newPath;
+				return;
+			}
 
-            string parentPath = Directory.GetParent(newPath).FullName;
+			var parentPath = Directory.GetParent(newPath).FullName;
+			var directories = Directory.GetDirectories(parentPath);
+			var files = Directory.GetFiles(parentPath);
 
-            string[] directories = Directory.GetDirectories(parentPath);
+			foreach (var directory in directories) {
+				_field[row].Add(new FileItem(this));
+				_field[row].Last().Path = directory;
+			}
+			foreach (var file in files) {
+				_field[row].Add(new FileItem(this));
+				_field[row].Last().Path = file;
+			}
 
-            int newPathIndex = 0;
-            while (newPathIndex < directories.Length && directories[newPathIndex] != newPath)
-            {
-                ++newPathIndex;
-            }
+//			int newPathIndex = 0;
+//			while (newPathIndex < directories.Length && directories[newPathIndex] != newPath) {
+//				++newPathIndex;
+//			}
+//
+//			if (newPathIndex == directories.Length) {
+//				// ERROR
+//				return;
+//			}
+//
+//
+//			// Обновляем состояния слева от центра
+//			int fieldIndex = _currentFileColumn;
+//			int currentDirIndex = newPathIndex;
+//
+//			while (fieldIndex >= 0 && currentDirIndex >= 0) {
+//				_field[row][fieldIndex].Path = directories[currentDirIndex];
+//
+//				--fieldIndex;
+//				--currentDirIndex;
+//			}
+//
+//			// Обновляем состоянония справа от центра
+//			fieldIndex = _columnCount / 2 + 1;
+//			currentDirIndex = newPathIndex + 1;
+//
+//			while (fieldIndex < _columnCount && currentDirIndex < directories.Length) {
+//				_field[row][fieldIndex].Path = directories[currentDirIndex];
+//
+//				++fieldIndex;
+//				++currentDirIndex;
+//			}
+//
+//			// Пытаемся дополнить строку файлами
+//			if (fieldIndex >= _columnCount) {
+//				return;
+//			}
+//			foreach (var currentFile in files) {
+//				if (fieldIndex < _columnCount) {
+//					_field[row][fieldIndex].Path = currentFile;
+//					++fieldIndex;
+//				} else {
+//					return;
+//				}
+//			}
+		}
 
-            if (newPathIndex == directories.Length)
-            {
-                // ERROR
-                return;
-            }
+		public FileSystemModel(int rowCount, string currentPath) {
+			// TODO: check argumnts
+			// rowCount > 1
 
+			_currentFileRow = rowCount - 2;
+			_currentFileColumn = 0;
 
-            // Обновляем состояния слева от центра
-            int fieldIndex = _currentFileColumn;
-            int currentDirIndex = newPathIndex;
+			_field = new List<FileItem>[rowCount];
+			for (int i = 0; i < rowCount; i++) {
+				_field[i] = new List<FileItem>();
+			}
 
-            while (fieldIndex >= 0 && currentDirIndex >= 0)
-            {
-                Field[row][fieldIndex].Path = directories[currentDirIndex];
+			SetCurrentFile(currentPath);
+		}
 
-                --fieldIndex;
-                --currentDirIndex;
-            }
+		public void SetCurrentFile(string path) {
+			if (path == "") {
+				return;
+			}
+			EraseField();
+			UpdateBottomLevel(path);
 
-            // Обновляем состоянония справа от центра
-            fieldIndex = _columnCount / 2 + 1;
-            currentDirIndex = newPathIndex + 1;
+			for (int row = _currentFileRow; row >= 0; --row) {
+				UpdateLevel(row, path);
+				if (Directory.GetParent(path) == null) {
+					return;
+				}
+				path = Directory.GetParent(path).FullName;
+			}
+		}
 
-            while (fieldIndex < _columnCount && currentDirIndex < directories.Length)
-            {
-                Field[row][fieldIndex].Path = directories[currentDirIndex];
+		public void Print() {
+			for (int i = 0; i < _field.Length; ++i) {
+				for (int j = 0; j < _field[i].Count; ++j) {
+					if (_field[i][j].Path.Length > 0) {
+						System.Console.Write(_field[i][j].Name);
+					}
+					System.Console.Write("\t\t");
+				}
 
-                ++fieldIndex;
-                ++currentDirIndex;
-            }
-
-            // Пытаемся дополнить строку файлами
-            if (fieldIndex >= _columnCount) {
-                return;
-            }
-            foreach (string currentFile in Directory.GetFiles(parentPath))
-            {
-                if (fieldIndex < _columnCount)
-                {
-                    Field[row][fieldIndex].Path = currentFile;
-                    ++fieldIndex;
-                }
-                else
-                {
-                    return;
-                }
-            }
-        }
-
-        public FileSystemModel(int rowCount, int columnCount, string currentPath)
-        {
-            // TODO: check argumnts
-            // rowCount > 1
-            // columnCount > 0
-            _rowCount = rowCount;
-            _columnCount = columnCount;
-
-            _currentFileRow = _rowCount - 2;
-            _currentFileColumn = _columnCount / 2;
-
-            Field = new FileItem[_rowCount][];
-
-            for (int i = 0; i < _rowCount; ++i)
-            {
-                Field[i] = new FileItem[_columnCount];
-
-                for (int j = 0; j < _columnCount; ++j)
-                {
-                    Field[i][j] = new FileItem(this);
-                }
-            }
-
-            SetCurrentFile(currentPath);
-        }
-
-        public void SetCurrentFile(string path)
-        {
-            if (path == "") {
-                return;
-            }
-            EraseField();
-            UpdateBottomLevel(path);
-
-            for (int row = _currentFileRow; row >= 0; --row)
-            {
-                UpdateLevel(row, path);
-                if (Directory.GetParent(path) == null)
-                {
-                    return;
-                }
-                path = Directory.GetParent(path).FullName;
-            }
-        }
-
-        public FileItem[][] GetField()
-        {
-            return Field;
-        }
-
-        public void Print()
-        {
-            for (int i = 0; i < _rowCount; ++i)
-            {
-                for (int j = 0; j < _columnCount; ++j)
-                {
-                    if (Field[i][j].Path.Length > 0)
-                    {
-                        System.Console.Write(Field[i][j].Name);
-                    }
-                    System.Console.Write("\t\t");
-                }
-
-                System.Console.WriteLine();
-            }
-        }
-    }
+				System.Console.WriteLine();
+			}
+		}
+	}
 }

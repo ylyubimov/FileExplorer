@@ -20,10 +20,10 @@ using FileBrowser.View.Sphere;
 namespace FileBrowser {
     public partial class MainWindow : Window {
         private readonly FileSystemModel _model;
-        private FileItem[][] _field;
+        private List<List<FileItem>> _field;
 
         public MainWindow() {
-            _model = new FileSystemModel( 3, 3, "C:\\" );
+            _model = new FileSystemModel( 3, "C:\\" );
             InitializeComponent();
         }
 
@@ -39,7 +39,7 @@ namespace FileBrowser {
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e) {
-            _field = _model.GetField();
+	        _field = _model.Field.ToList();
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
@@ -50,10 +50,6 @@ namespace FileBrowser {
 
         private void ExitButtonOnClick(object sender, RoutedEventArgs e) {
             Close();
-        }
-
-        private void PZDC(object sender, MouseButtonEventArgs e) {
-            int a = 0;
         }
     }
 }

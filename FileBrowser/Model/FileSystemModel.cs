@@ -17,8 +17,9 @@ namespace FileBrowser.Model {
 		}
 
 		public FileSystemModel(int rowCount, string currentPath, IEnumerable<ListBox> listBoxes, IEnumerable<ScrollViewer> scrollViewers) {
-			// TODO: check argumnts
-			// rowCount > 1
+			if (rowCount <= 1) {
+				throw new ArgumentException("row count must be 2 or more");
+			}
 
 			_currentFileRow = rowCount - 2;
 			_currentFileColumn = 0;
@@ -113,19 +114,6 @@ namespace FileBrowser.Model {
 				scrollViewer.ScrollToHorizontalOffset(95);
 			}
 			_scrollViewers[_currentFileRow].ScrollToHorizontalOffset(52 * _currentFileColumn);
-		}
-
-		public void Print() {
-			foreach (var row in _field) {
-				foreach (var element in row) {
-					if (element.Path.Length > 0) {
-						System.Console.Write(element.Name);
-					}
-					System.Console.Write("\t\t");
-				}
-
-				System.Console.WriteLine();
-			}
 		}
 	}
 }

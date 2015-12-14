@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Etier.IconHelper;
+using FileBrowser.View;
 
 namespace FileBrowser.Model {
 	public class FileItem : INotifyPropertyChanged {

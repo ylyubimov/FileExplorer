@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Data;
 using System.Runtime.InteropServices;
 
-namespace Etier.IconHelper {
+namespace FileBrowser.View {
 	/// <summary>
 	/// Provides static methods to read system icons for both folders and files.
 	/// </summary>
@@ -49,10 +45,10 @@ namespace Etier.IconHelper {
 		/// <param name="linkOverlay">Whether to include the link icon</param>
 		/// <returns>System.Drawing.Icon</returns>
 		public static System.Drawing.Icon GetFileIcon(string name, IconSize size, bool linkOverlay) {
-			Shell32.SHFILEINFO shfi = new Shell32.SHFILEINFO();
+			Shell32.Shfileinfo shfi = new Shell32.Shfileinfo();
 			uint flags = Shell32.SHGFI_ICON | Shell32.SHGFI_USEFILEATTRIBUTES;
 
-			if (true == linkOverlay) flags += Shell32.SHGFI_LINKOVERLAY;
+			if (linkOverlay) flags += Shell32.SHGFI_LINKOVERLAY;
 
 			/* Check the size specified for return. */
 			if (IconSize.Small == size) {
@@ -64,7 +60,7 @@ namespace Etier.IconHelper {
 			Shell32.SHGetFileInfo(name,
 				Shell32.FILE_ATTRIBUTE_NORMAL,
 				ref shfi,
-				(uint)System.Runtime.InteropServices.Marshal.SizeOf(shfi),
+				(uint)Marshal.SizeOf(shfi),
 				flags);
 
 			// Copy (clone) the returned icon to a new object, thus allowing us to clean-up properly
@@ -94,11 +90,11 @@ namespace Etier.IconHelper {
 			}
 
 			// Get the folder icon
-			Shell32.SHFILEINFO shfi = new Shell32.SHFILEINFO();
+			Shell32.Shfileinfo shfi = new Shell32.Shfileinfo();
 			Shell32.SHGetFileInfo("dummy",
 				Shell32.FILE_ATTRIBUTE_DIRECTORY,
 				ref shfi,
-				(uint)System.Runtime.InteropServices.Marshal.SizeOf(shfi),
+				(uint)Marshal.SizeOf(shfi),
 				flags);
 
 			System.Drawing.Icon.FromHandle(shfi.hIcon);	// Load the icon from an HICON handle
@@ -123,19 +119,19 @@ namespace Etier.IconHelper {
 
 		public const int MAX_PATH = 256;
 		[StructLayout(LayoutKind.Sequential)]
-		public struct SHITEMID {
+		public struct Shitemid {
 			public ushort cb;
 			[MarshalAs(UnmanagedType.LPArray)]
 			public byte[] abID;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct ITEMIDLIST {
-			public SHITEMID mkid;
+		public struct Itemidlist {
+			public Shitemid mkid;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct BROWSEINFO {
+		public struct Browseinfo {
 			public IntPtr hwndOwner;
 			public IntPtr pidlRoot;
 			public IntPtr pszDisplayName;
@@ -163,7 +159,7 @@ namespace Etier.IconHelper {
 		public const uint BIF_SHAREABLE = 0x8000;
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct SHFILEINFO {
+		public struct Shfileinfo {
 			public const int NAMESIZE = 80;
 			public IntPtr hIcon;
 			public int iIcon;
@@ -200,7 +196,7 @@ namespace Etier.IconHelper {
 		public static extern IntPtr SHGetFileInfo(
 			string pszPath,
 			uint dwFileAttributes,
-			ref SHFILEINFO psfi,
+			ref Shfileinfo psfi,
 			uint cbFileInfo,
 			uint uFlags
 			);
@@ -220,4 +216,3 @@ namespace Etier.IconHelper {
 		public static extern int DestroyIcon(IntPtr hIcon);
 	}
 }
-

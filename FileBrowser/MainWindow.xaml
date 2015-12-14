@@ -3,8 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:sphere="clr-namespace:FileBrowser.View.Sphere"
 	xmlns:model="clr-namespace:FileBrowser.Model"
+	xmlns:view="clr-namespace:FileBrowser.View"
 	mc:Ignorable="d"
 	x:Class="FileBrowser.MainWindow"
 	Title="Magic sphere browser"
@@ -14,7 +14,7 @@
 	WindowStyle="None"
 	Background="Transparent">
 	<Window.Resources>
-		<sphere:SphereGeometry3D x:Key="SphereGeometrySource"/>
+		<view:SphereGeometry3D x:Key="SphereGeometrySource"/>
 		<MeshGeometry3D
 			x:Key="SphereGeometry"
 			Positions="{Binding Points, Source={StaticResource SphereGeometrySource}}"

@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using QuickZip.Tools;
+using Etier.IconHelper;
 
 namespace FileBrowser.Model {
 	public class FileItem : INotifyPropertyChanged {
@@ -22,20 +22,10 @@ namespace FileBrowser.Model {
 				if (_path.Length > 0) {
 					Name = _path.Split(new[] {System.IO.Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries).Last();
 
-					FileToIconConverter iconConverter = new FileToIconConverter();
-
-					Icon = iconConverter.GetImage(_path, 120);
-
-					//FileAttributes attr = File.GetAttributes(_path);
-					//if ((attr & FileAttributes.Directory) == FileAttributes.Directory) 
-					//{
-					//    Icon = ToImageSource(IconReader.GetFolderIcon(IconReader.IconSize.ExtraLarge,
-					//        IconReader.FolderType.Closed));
-					//}
-					//else
-					//{
-					//    Icon = ToImageSource(IconReader.GetFileIcon(_path, IconReader.IconSize.ExtraLarge, false));
-					//}
+					FileAttributes attr = File.GetAttributes(_path);
+					Icon = ToImageSource((attr & FileAttributes.Directory) == FileAttributes.Directory
+									? IconReader.GetFolderIcon(IconReader.IconSize.Large, IconReader.FolderType.Closed)
+									: IconReader.GetFileIcon(_path, IconReader.IconSize.Large, false));
 				} else {
 					Name = _path;
 					Icon = null;

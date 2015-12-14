@@ -54,17 +54,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="InternalWindow.xaml.cs">
-      <DependentUpon>InternalWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Model\FileItem.cs" />
     <Compile Include="Model\FileWatcher.cs" />
+    <Compile Include="View\IconReader.cs" />
     <Compile Include="View\Sphere\SphereGeometry3D.cs" />
-    <Page Include="InternalWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -115,12 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\glaz.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IconReader\IconReader.csproj">
-      <Project>{78595a9e-a078-4712-9296-b80f973b4f1a}</Project>
-      <Name>IconReader</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\close.png" />

@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileBrowser", "FileBrowser.csproj", "{D39B0F0D-C752-49F6-88F4-116F7388B6B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IconReader", "..\IconReader\IconReader.csproj", "{78595A9E-A078-4712-9296-B80F973B4F1A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{D39B0F0D-C752-49F6-88F4-116F7388B6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D39B0F0D-C752-49F6-88F4-116F7388B6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D39B0F0D-C752-49F6-88F4-116F7388B6B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78595A9E-A078-4712-9296-B80F973B4F1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78595A9E-A078-4712-9296-B80F973B4F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78595A9E-A078-4712-9296-B80F973B4F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78595A9E-A078-4712-9296-B80F973B4F1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

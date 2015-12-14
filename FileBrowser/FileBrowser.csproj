@@ -60,9 +60,7 @@
     </Compile>
     <Compile Include="Model\FileItem.cs" />
     <Compile Include="Model\FileWatcher.cs" />
-    <Compile Include="View\Item\ItemView.cs" />
     <Compile Include="View\Sphere\SphereGeometry3D.cs" />
-    <Compile Include="View\Sphere\SphereController.cs" />
     <Page Include="InternalWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +121,10 @@
       <Project>{78595a9e-a078-4712-9296-b80f973b4f1a}</Project>
       <Name>IconReader</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\close.png" />
+    <Resource Include="Resources\minimize.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

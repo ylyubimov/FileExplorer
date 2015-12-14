@@ -15,41 +15,37 @@ using System.Windows.Markup;
 using System.Windows.Navigation;
 using System.Xml;
 using FileBrowser.Model;
-using FileBrowser.View.Sphere;
 
 namespace FileBrowser {
-    public partial class MainWindow : Window {
-        private readonly FileSystemModel _model;
-        private List<List<FileItem>> _field;
+	public partial class MainWindow : Window {
+		private FileSystemModel _model;
 
-        public MainWindow() {
-            _model = new FileSystemModel( 3, "C:\\" );
-            InitializeComponent();
-        }
+		public MainWindow() {
+			InitializeComponent();
+			ListBox[] listBoxes = {PreviousLevel, CurrentLevel, NextLevel};
+			ScrollViewer[] scrollViewers = {PreviousLevelScrollViewer, CurrentLevelScrollViewer, NextLevelScrollViewer};
+			_model = new FileSystemModel(3, "C:\\", listBoxes, scrollViewers);
+		}
 
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
-            PreviousLevel.ItemsSource = _model.Field[0];
-            CurrentLevel.ItemsSource = _model.Field[1];
-            NextLevel.ItemsSource = _model.Field[2];
+		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+			var listBox = (ListBox) sender;
+			listBox.SelectedItem = null;
+		}
 
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-            worker.DoWork += worker_DoWork;
-            worker.RunWorkerAsync();
-        }
+		private void ExitButtonOnClick(object sender, MouseButtonEventArgs e) {
+			Close();
+		}
 
-        private void worker_DoWork(object sender, DoWorkEventArgs e) {
-	        _field = _model.Field.ToList();
-        }
+		private void MinimizeButtonOnClick(object sender, MouseButtonEventArgs e) {
+			WindowState = WindowState.Minimized;
+		}
 
-        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            PreviousLevel.ItemsSource = _field[0];
-            CurrentLevel.ItemsSource = _field[1];
-            NextLevel.ItemsSource = _field[2];
-        }
+		private void ScrollViewerOnTouchDown(object sender, TouchEventArgs e) {
+			throw new NotImplementedException();
+		}
 
-        private void ExitButtonOnClick(object sender, RoutedEventArgs e) {
-            Close();
-        }
-    }
+		private void ScrollViewerOnMouseWheel(object sender, MouseWheelEventArgs e) {
+			throw new NotImplementedException();
+		}
+	}
 }

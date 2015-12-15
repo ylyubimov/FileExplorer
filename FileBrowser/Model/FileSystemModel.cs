@@ -80,6 +80,11 @@ namespace FileBrowser.Model {
 		}
 
 		public void SetCurrentFile(string path) {
+			if ((File.GetAttributes(path) & FileAttributes.Directory) != FileAttributes.Directory) {
+				System.Diagnostics.Process.Start(path);
+				return;
+			}
+
 			if (path == "") {
 				return;
 			}

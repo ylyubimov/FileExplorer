@@ -39,10 +39,11 @@
 				Material="{StaticResource SphereMaterial}"
 				Geometry="{StaticResource SphereGeometry}">
 				<Viewport2DVisual3D.Visual>
-					<Grid
+					<Grid                        
+                        KeyDown="KeyEvents"
 						Height="500"
 						Width="500">
-						<Image Source="Resources/sphereTexture.png"></Image>
+                        <Image Source="Resources/sphereTexture.png"></Image>
 						<Grid Margin="130,100,130,100">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="100"/>

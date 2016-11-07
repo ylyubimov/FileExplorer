@@ -26,5 +26,30 @@ namespace FileBrowser {
 		private void MinimizeButtonOnClick(object sender, MouseButtonEventArgs e) {
 			WindowState = WindowState.Minimized;
 		}
+
+		private void KeyEvents(object sender, KeyEventArgs e)
+		{
+			if( e.Key == Key.W )
+			{
+				int randomFileNumber = (Model.Field[0].Count + 1) / 2 - 1;
+				FileItem randomFile = Model.Field[0][randomFileNumber];
+				Model.SetCurrentFile(randomFile.Path);
+			}
+			else if(e.Key == Key.S)
+			{
+				int randomFileNumber = (Model.Field[2].Count + 1) / 2 - 1;
+				FileItem randomFile = Model.Field[2][randomFileNumber];
+				Model.SetCurrentFile(randomFile.Path);
+			}
+			else if(e.Key == Key.A)
+			{
+				Model.SelectRightFile();
+
+			}
+			else if (e.Key == Key.D)
+			{
+				Model.SelectRightFile();
+			}
+		}
 	}
 }

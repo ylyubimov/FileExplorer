@@ -163,9 +163,10 @@ namespace FileBrowser.Model {
 			}
 
 			foreach (var scrollViewer in _scrollViewers) {
-				scrollViewer.ScrollToHorizontalOffset(200);
+				//scrollViewer.ScrollToHorizontalOffset(50);
 			}
-			_scrollViewers[_currentFileRow].ScrollToHorizontalOffset(52 * _currentFileColumn);
+			double koef = 1.0 * (_scrollViewers[_currentFileRow].ExtentWidth - _scrollViewers[_currentFileRow].ViewportWidth) / _field[_currentFileRow].Count();
+			_scrollViewers[_currentFileRow].ScrollToHorizontalOffset(_currentFileColumn * koef);
 		}
 
 	}

@@ -27,6 +27,11 @@ namespace FileBrowser {
 			WindowState = WindowState.Minimized;
 		}
 
+		private void titleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			this.DragMove();
+		}
+
 		private void KeyEvents(object sender, KeyEventArgs e)
 		{
 			if( e.Key == Key.W )

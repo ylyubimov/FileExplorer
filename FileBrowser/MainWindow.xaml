@@ -41,6 +41,7 @@
 				<Viewport2DVisual3D.Visual>
 					<Grid                        
                         KeyDown="KeyEvents"
+                        MouseLeftButtonDown="titleBar_MouseLeftButtonDown"
 						Height="500"
 						Width="500">
                         <Image Source="Resources/sphereTexture.png"></Image>

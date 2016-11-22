@@ -40,7 +40,10 @@
 				Geometry="{StaticResource SphereGeometry}">
 				<Viewport2DVisual3D.Visual>
 					<Grid                        
+                        Name="cnv"
                         KeyDown="KeyEvents"
+                        PreviewTouchMove="TouchHandler"
+                        PreviewTouchUp="UntouchHandler"
                         MouseLeftButtonDown="titleBar_MouseLeftButtonDown"
 						Height="500"
 						Width="500">

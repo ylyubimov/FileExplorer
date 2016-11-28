@@ -56,16 +56,16 @@ namespace FileBrowser {
 			{
 				SelectUpperFile();
 			}
-			else if(e.Key == Key.S)
+			else if( e.Key == Key.S )
 			{
 				SelectBottomFile();
 			}
-			else if(e.Key == Key.A)
+			else if( e.Key == Key.A )
 			{
 				Model.SelectRightFile();
 
 			}
-			else if (e.Key == Key.D)
+			else if( e.Key == Key.D )
 			{
 				Model.SelectRightFile();
 			}
@@ -79,7 +79,6 @@ namespace FileBrowser {
 
 		private void TouchHandler(object sender, TouchEventArgs e)
 		{
-			//MessageBox.Show("Wow");
 			TouchPoint tp = e.GetTouchPoint(cnv);
 			// Не рассматриваем небольшие отклонения. Число подобрано из эмпирических соображений
 			if (Math.Abs(CurrentXPosition - tp.Position.X) >= 50)
@@ -100,7 +99,6 @@ namespace FileBrowser {
 				}
 				// В любом случае обновляем координату
 				CurrentXPosition = tp.Position.X;
-				//MessageBox.Show("Wow!");
 			}
 
 			if (Math.Abs(CurrentYPosition - tp.Position.Y) >= 50)
@@ -119,9 +117,7 @@ namespace FileBrowser {
 				}
 				// В любом случае обновляем координату
 				CurrentYPosition = tp.Position.Y;
-				//MessageBox.Show("Wow!");
 			}
-			//MessageBox.Show(tp.Position.X.ToString() + "  " + tp.Position.Y.ToString());
 		}
 	}
 }

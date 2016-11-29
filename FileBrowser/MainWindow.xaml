@@ -94,7 +94,7 @@
 								x:Name="PreviousLevelScrollViewer"
 								Grid.Row="0"
 								VerticalScrollBarVisibility="Disabled"
-								HorizontalScrollBarVisibility="Auto"
+								HorizontalScrollBarVisibility="Hidden"
 								VerticalContentAlignment="Center">
 								<Grid>
 									<Grid.ColumnDefinitions>
@@ -126,7 +126,8 @@
 								x:Name="CurrentLevelScrollViewer"
 								Grid.Row="1"
 								VerticalScrollBarVisibility="Disabled"
-								HorizontalScrollBarVisibility="Auto"
+								HorizontalScrollBarVisibility="Hidden"
+                                Background="Transparent"
 								VerticalContentAlignment="Center">
 								<Grid>
 									<Grid.ColumnDefinitions>
@@ -158,7 +159,7 @@
 								x:Name="NextLevelScrollViewer"
 								Grid.Row="2"
 								VerticalScrollBarVisibility="Disabled"
-								HorizontalScrollBarVisibility="Auto"
+								HorizontalScrollBarVisibility="Hidden"
 								VerticalContentAlignment="Center">
 								<Grid>
 									<Grid.ColumnDefinitions>

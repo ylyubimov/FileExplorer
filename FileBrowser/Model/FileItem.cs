@@ -9,23 +9,35 @@ using System.Windows.Media;
 using FileBrowser.View;
 
 namespace FileBrowser.Model {
-	public class FileItem : INotifyPropertyChanged {
-		private readonly FileSystemModel _model;
-		private readonly bool _canExecute;
-		private string _path;
-		public event PropertyChangedEventHandler PropertyChanged;
+    /// <summary>
+    /// Class for work with file, specified by its path and fileSystemModel
+    /// </summary>
+    public class FileItem : INotifyPropertyChanged {
+        public FileItem(FileSystemModel model, string path)
+        {
+            _model = model;
+            _path = path;
+            _canExecute = true;
+        }
 
-		public string Path {
-			get { return _path; }
+        /// <summary>
+        /// Specifies the name and icon of the file be the path
+        /// </summary>
+        public string Path
+        {
+			get {
+                return _path;
+            }
 			set {
 				_path = value;
-				if (_path.Length > 0) {
-					Name = _path.Split(new[] {System.IO.Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries).Last();
+				if( _path.Length > 0 ) {
+					Name = _path.Split( new[] {System.IO.Path.DirectorySeparatorChar},
+                        StringSplitOptions.RemoveEmptyEntries ).Last();
 
-					FileAttributes attr = File.GetAttributes(_path);
-					Icon = ToImageSource((attr & FileAttributes.Directory) == FileAttributes.Directory
-									? IconReader.GetFolderIcon(IconReader.IconSize.Large, IconReader.FolderType.Closed)
-									: IconReader.GetFileIcon(_path, IconReader.IconSize.Large, false));
+					FileAttributes attr = File.GetAttributes( _path );
+					Icon = ToImageSource( ( attr & FileAttributes.Directory ) == FileAttributes.Directory
+									? IconReader.GetFolderIcon( IconReader.IconSize.Large, IconReader.FolderType.Closed )
+									: IconReader.GetFileIcon( _path, IconReader.IconSize.Large, false ) );
 				} else {
 					Name = _path;
 					Icon = null;
@@ -33,50 +45,85 @@ namespace FileBrowser.Model {
 			}
 		}
 
-		public string Name { get; private set; }
+        /// <summary>
+        /// Name of the file
+        /// </summary>
+        public string Name
+        {
+            get;
+            private set;
+        }
 
-		public ImageSource Icon { get; private set; }
+        /// <summary>
+        /// Icon of the file
+        /// </summary>
+        public ImageSource Icon
+        {
+            get;
+            private set;
+        }
 
-		public FileItem(FileSystemModel model, string path) {
-			_model = model;
-			_path = path;
-			_canExecute = true;
-		}
+        /// <summary>
+        /// Applying click command to the file
+        /// </summary>
+        public ICommand ClickCommand
+        {
+            get {
+                return _clickCommand ?? ( _clickCommand = new CommandHandler( SetCurrentFileAction, _canExecute ) );
+            }
+        }
 
-		private ICommand _clickCommand;
+        /// <summary>
+        /// Set the file as the current file in file system
+        /// </summary>
+        public void SetCurrentFileAction()
+        {
+            _model.SetCurrentFile( _path );
+        }
 
-		public ICommand ClickCommand {
-			get { return _clickCommand ?? (_clickCommand = new CommandHandler(MyAction, _canExecute)); }
-		}
+        /// <summary>
+        /// Convert icon to the working format
+        /// </summary>
+        public static ImageSource ToImageSource(System.Drawing.Icon icon)
+        {
+            ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon( icon.Handle, Int32Rect.Empty,
+                    System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions() );
 
-		public void MyAction() {
-			_model.SetCurrentFile(_path);
-		}
+            return imageSource;
+        }
 
-		public static ImageSource ToImageSource(System.Drawing.Icon icon) {
-			ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty,
-					System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+        public event PropertyChangedEventHandler PropertyChanged;
+        private ICommand _clickCommand;
+        // File system for file
+        private readonly FileSystemModel _model;
+        // Flag to check can the file be executed or not
+        private readonly bool _canExecute;
+        // Path to the file
+        private string _path;
+    }
 
-			return imageSource;
-		}
-	}
-
-	public class CommandHandler : ICommand {
-		private readonly Action _action;
-		private readonly bool _canExecute;
-		public event EventHandler CanExecuteChanged;
-
-		public CommandHandler(Action action, bool canExecute) {
+    /// <summary>
+    /// Class checking and executing commands
+    /// </summary>
+    public class CommandHandler : ICommand {
+		public CommandHandler( Action action, bool canExecute )
+        {
 			_action = action;
 			_canExecute = canExecute;
 		}
 
-		public bool CanExecute(object parameter) {
+		public bool CanExecute( object parameter )
+        {
 			return _canExecute;
 		}
 
-		public void Execute(object parameter) {
+		public void Execute( object parameter )
+        {
 			_action();
 		}
-	}
+
+        public event EventHandler CanExecuteChanged;
+        private readonly Action _action;
+        private readonly bool _canExecute;
+    }
 }

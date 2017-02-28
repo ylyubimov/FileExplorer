@@ -44,28 +44,28 @@ namespace FileBrowser.View {
 		/// <param name="size">Large or small</param>
 		/// <param name="linkOverlay">Whether to include the link icon</param>
 		/// <returns>System.Drawing.Icon</returns>
-		public static System.Drawing.Icon GetFileIcon(string name, IconSize size, bool linkOverlay) {
+		public static System.Drawing.Icon GetFileIcon( string name, IconSize size, bool linkOverlay )
+        {
 			Shell32.Shfileinfo shfi = new Shell32.Shfileinfo();
 			uint flags = Shell32.SHGFI_ICON | Shell32.SHGFI_USEFILEATTRIBUTES;
 
-			if (linkOverlay) flags += Shell32.SHGFI_LINKOVERLAY;
+            if( linkOverlay ) {
+                flags += Shell32.SHGFI_LINKOVERLAY;
+            }
 
-			/* Check the size specified for return. */
-			if (IconSize.Small == size) {
+			// Check the size specified for return.
+			if( IconSize.Small == size ) {
 				flags += Shell32.SHGFI_SMALLICON;
 			} else {
 				flags += Shell32.SHGFI_LARGEICON;
 			}
 
-			Shell32.SHGetFileInfo(name,
-				Shell32.FILE_ATTRIBUTE_NORMAL,
-				ref shfi,
-				(uint)Marshal.SizeOf(shfi),
-				flags);
+			Shell32.SHGetFileInfo(name, Shell32.FILE_ATTRIBUTE_NORMAL, 
+                ref shfi, ( uint )Marshal.SizeOf( shfi ), flags);
 
 			// Copy (clone) the returned icon to a new object, thus allowing us to clean-up properly
-			System.Drawing.Icon icon = (System.Drawing.Icon)System.Drawing.Icon.FromHandle(shfi.hIcon).Clone();
-			User32.DestroyIcon(shfi.hIcon);		// Cleanup
+			System.Drawing.Icon icon = ( System.Drawing.Icon )System.Drawing.Icon.FromHandle( shfi.hIcon ).Clone();
+			User32.DestroyIcon( shfi.hIcon );
 			return icon;
 		}
 
@@ -75,15 +75,16 @@ namespace FileBrowser.View {
 		/// <param name="size">Specify large or small icons.</param>
 		/// <param name="folderType">Specify open or closed FolderType.</param>
 		/// <returns>System.Drawing.Icon</returns>
-		public static System.Drawing.Icon GetFolderIcon(IconSize size, FolderType folderType) {
+		public static System.Drawing.Icon GetFolderIcon( IconSize size, FolderType folderType )
+        {
 			// Need to add size check, although errors generated at present!
 			uint flags = Shell32.SHGFI_ICON | Shell32.SHGFI_USEFILEATTRIBUTES;
 
-			if (FolderType.Open == folderType) {
+			if( FolderType.Open == folderType ) {
 				flags += Shell32.SHGFI_OPENICON;
 			}
 
-			if (IconSize.Small == size) {
+			if( IconSize.Small == size ) {
 				flags += Shell32.SHGFI_SMALLICON;
 			} else {
 				flags += Shell32.SHGFI_LARGEICON;
@@ -91,18 +92,16 @@ namespace FileBrowser.View {
 
 			// Get the folder icon
 			Shell32.Shfileinfo shfi = new Shell32.Shfileinfo();
-			Shell32.SHGetFileInfo("dummy",
-				Shell32.FILE_ATTRIBUTE_DIRECTORY,
-				ref shfi,
-				(uint)Marshal.SizeOf(shfi),
-				flags);
+			Shell32.SHGetFileInfo( "dummy", Shell32.FILE_ATTRIBUTE_DIRECTORY, 
+                ref shfi, ( uint )Marshal.SizeOf( shfi ), flags);
 
-			System.Drawing.Icon.FromHandle(shfi.hIcon);	// Load the icon from an HICON handle
+            // Load the icon from an HICON handle
+            System.Drawing.Icon.FromHandle( shfi.hIcon );
 
 			// Now clone the icon, so that it can be successfully stored in an ImageList
-			System.Drawing.Icon icon = (System.Drawing.Icon)System.Drawing.Icon.FromHandle(shfi.hIcon).Clone();
+			System.Drawing.Icon icon = ( System.Drawing.Icon )System.Drawing.Icon.FromHandle( shfi.hIcon ).Clone();
 
-			User32.DestroyIcon(shfi.hIcon);		// Cleanup
+			User32.DestroyIcon( shfi.hIcon );
 			return icon;
 		}
 	}
@@ -111,31 +110,28 @@ namespace FileBrowser.View {
 	/// Wraps necessary Shell32.dll structures and functions required to retrieve Icon Handles using SHGetFileInfo. Code
 	/// courtesy of MSDN Cold Rooster Consulting case study.
 	/// </summary>
-	/// 
-
-	// This code has been left largely untouched from that in the CRC example. The main changes have been moving
-	// the icon reading code over to the IconReader type.
 	public class Shell32 {
 
 		public const int MAX_PATH = 256;
-		[StructLayout(LayoutKind.Sequential)]
+
+		[StructLayout( LayoutKind.Sequential )]
 		public struct Shitemid {
 			public ushort cb;
-			[MarshalAs(UnmanagedType.LPArray)]
+			[MarshalAs( UnmanagedType.LPArray )]
 			public byte[] abID;
 		}
 
-		[StructLayout(LayoutKind.Sequential)]
+		[StructLayout( LayoutKind.Sequential )]
 		public struct Itemidlist {
 			public Shitemid mkid;
 		}
 
-		[StructLayout(LayoutKind.Sequential)]
+		[StructLayout( LayoutKind.Sequential )]
 		public struct Browseinfo {
 			public IntPtr hwndOwner;
 			public IntPtr pidlRoot;
 			public IntPtr pszDisplayName;
-			[MarshalAs(UnmanagedType.LPTStr)]
+			[MarshalAs( UnmanagedType.LPTStr )]
 			public string lpszTitle;
 			public uint ulFlags;
 			public IntPtr lpfn;
@@ -158,15 +154,15 @@ namespace FileBrowser.View {
 		public const uint BIF_BROWSEINCLUDEFILES = 0x4000;
 		public const uint BIF_SHAREABLE = 0x8000;
 
-		[StructLayout(LayoutKind.Sequential)]
+		[StructLayout( LayoutKind.Sequential )]
 		public struct Shfileinfo {
 			public const int NAMESIZE = 80;
 			public IntPtr hIcon;
 			public int iIcon;
 			public uint dwAttributes;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
+			[MarshalAs( UnmanagedType.ByValTStr, SizeConst = MAX_PATH )]
 			public string szDisplayName;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = NAMESIZE)]
+			[MarshalAs( UnmanagedType.ByValTStr, SizeConst = NAMESIZE )]
 			public string szTypeName;
 		};
 
@@ -192,14 +188,9 @@ namespace FileBrowser.View {
 		public const uint FILE_ATTRIBUTE_DIRECTORY = 0x00000010;
 		public const uint FILE_ATTRIBUTE_NORMAL = 0x00000080;
 
-		[DllImport("Shell32.dll")]
-		public static extern IntPtr SHGetFileInfo(
-			string pszPath,
-			uint dwFileAttributes,
-			ref Shfileinfo psfi,
-			uint cbFileInfo,
-			uint uFlags
-			);
+		[DllImport( "Shell32.dll" )]
+		public static extern IntPtr SHGetFileInfo( string pszPath, uint dwFileAttributes,
+            ref Shfileinfo psfi, uint cbFileInfo, uint uFlags );
 	}
 
 	/// <summary>
@@ -212,7 +203,7 @@ namespace FileBrowser.View {
 		/// </summary>
 		/// <param name="hIcon">Pointer to icon handle.</param>
 		/// <returns>N/A</returns>
-		[DllImport("User32.dll")]
-		public static extern int DestroyIcon(IntPtr hIcon);
+		[DllImport( "User32.dll" )]
+		public static extern int DestroyIcon( IntPtr hIcon );
 	}
 }

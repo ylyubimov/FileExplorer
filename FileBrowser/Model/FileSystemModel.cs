@@ -96,7 +96,7 @@ namespace FileBrowser.Model {
                 return;
             }
 
-            UpdateBottomLevel( path );
+            updateBottomLevel( path );
             var tmpPath = path;
 
             for( int row = _currentFileRow; row >= 0; --row ) {
@@ -145,7 +145,7 @@ namespace FileBrowser.Model {
         /// <summary>
         /// Update 2 bottom
         /// </summary>
-        private void UpdateBottomLevel( string parentPath )
+        private void updateBottomLevel( string parentPath )
         {
 			// Clear all field
 			eraseField();

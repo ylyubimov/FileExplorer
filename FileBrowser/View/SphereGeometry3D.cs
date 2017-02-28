@@ -24,7 +24,7 @@ namespace FileBrowser.View {
             }
             set {
                 _radius = value;
-                CalculateGeometry();
+                calculateGeometry();
             }
         }
 
@@ -38,7 +38,7 @@ namespace FileBrowser.View {
             }
             set {
                 _n = value;
-                CalculateGeometry();
+                calculateGeometry();
             }
         }
 
@@ -63,7 +63,7 @@ namespace FileBrowser.View {
             }
         }
 
-		private void CalculateGeometry() {
+		private void calculateGeometry() {
             int e;
             double segmentAngle = Math.PI / ( 2 * ( _n + 1 ) );
             int numberOfSeparators = 4 * _n + 4;

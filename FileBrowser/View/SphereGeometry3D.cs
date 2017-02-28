@@ -100,13 +100,13 @@ namespace FileBrowser.View {
                 }
             }
 
-            for (int i = 0; i < numberOfSeparators; i++) {
+            for( int i = 0; i < numberOfSeparators; i++ ) {
                 _triangleIndices.Add( numberOfSeparators * ( 2 * _n + 1 ) );
                 _triangleIndices.Add( _n * 2 * numberOfSeparators + i );
                 _triangleIndices.Add( _n * 2 * numberOfSeparators + ( i + 1 ) % numberOfSeparators );
             }
 
-            for (int i = 0; i < numberOfSeparators; i++) {
+            for( int i = 0; i < numberOfSeparators; i++ ) {
                 _triangleIndices.Add( i );
                 _triangleIndices.Add( numberOfSeparators * ( 2 * _n + 1 ) + 1 );
                 _triangleIndices.Add( ( i + 1 ) % numberOfSeparators );
